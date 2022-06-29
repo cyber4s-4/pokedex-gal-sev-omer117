@@ -18,6 +18,18 @@ function handleData(data: any) {
 
 console.log(pokemonArr);
 
+//        laptopList!.innerHTML += `<div class="product" id="product-${index.toString()}">
+// <img class="laptop-img" src="${product.photo}">
+// <div class="mid-div">
+//   <div class="laptop-name">${product.name}</div>
+//   <div class="laptop-info"></div>
+// </div>
+// <div class="left-div">
+//   <img class="laptop-logo" src="${product.logoPhoto}">
+//   <div class="laptop-price">₪${product.price}</div>
+// </div>
+// </div>`;
+
 
 class Pokemon {
     id;
