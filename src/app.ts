@@ -12,24 +12,12 @@ function handleData(data: any) {
             Number(pokeEntriesData[i].entry_number), 
             pokeEntriesData[i].pokemon_species.name,
             pokeEntriesData[i].pokemon_species.url));
+        pokemonArr[i].createPokeElement();
     }  
     
 }
 
 console.log(pokemonArr);
-
-//        laptopList!.innerHTML += `<div class="product" id="product-${index.toString()}">
-// <img class="laptop-img" src="${product.photo}">
-// <div class="mid-div">
-//   <div class="laptop-name">${product.name}</div>
-//   <div class="laptop-info"></div>
-// </div>
-// <div class="left-div">
-//   <img class="laptop-logo" src="${product.logoPhoto}">
-//   <div class="laptop-price">₪${product.price}</div>
-// </div>
-// </div>`;
-
 
 class Pokemon {
     id;
@@ -41,7 +29,27 @@ class Pokemon {
         this.name = name;
         this.url = url;
         // this.generation = generation;
-
     }
+
+    createPokeElement() {
+        let pokemonList = document.getElementById("pokemonList") as HTMLDivElement;
+        
+        pokemonList!.innerHTML += 
+        `<div class="pokemon" id="pokemon-${this.id.toString()}">
+            <h1>${this.name}</h1>
+            <p>${this.id}</p>
+            <p>${this.url}</p>
+        </div>`;
+    }
+        
+    // <img class="laptop-img" src="${product.photo}">
+    // <div class="mid-div">
+    //   <div class="laptop-name">${product.name}</div>
+    //   <div class="laptop-info"></div>
+    // </div>
+    // <div class="left-div">
+    //   <img class="laptop-logo" src="${product.logoPhoto}">
+    //   <div class="laptop-price">₪${product.price}</div>
+    // </div>
 }
 
