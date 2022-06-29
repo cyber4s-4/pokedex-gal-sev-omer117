@@ -9,10 +9,12 @@ let pokemonArr: Pokemon[] = [];
 function handleData(data: any) {
     let pokeEntriesData = data.pokemon_entries;
     for (let i = 0; i < pokeEntriesData.length; i++) {
+
         pokemonArr.push(new Pokemon(
             Number(pokeEntriesData[i].entry_number), 
             pokeEntriesData[i].pokemon_species.name,
-            pokeEntriesData[i].pokemon_species.url));
+            pokeEntriesData[i].pokemon_species.url
+            ));
         pokemonArr[i].createPokeElement();
     }  
     
@@ -32,6 +34,17 @@ function filterByName() {
     }
     return filteredArr;
 }
+
+for(let i = 0; i<pokemonArr.length;i++){
+    let pokemonIdSomething = document.getElementById('pokemon-'+ i) as HTMLDivElement;
+    console.log(pokemonIdSomething);
+    
+    pokemonIdSomething.addEventListener('click', () => {
+        pokemonArr[i].getExtraData();
+        console.log(pokemonArr[i]);
+    });
+}
+
 
 function updatePokemonHtml() {
     let filteredArr = filterByName();
