@@ -7,14 +7,16 @@ let pokemonArr: Pokemon[] = [];
 
 function handleData(data: any) {
     let pokeEntriesData = data.pokemon_entries;
-    console.log(pokeEntriesData);
     for (let i = 0; i < pokeEntriesData.length; i++) {
-        console.log(pokeEntriesData[i]);
-        pokemonArr.push(pokeEntriesData[i])
-
-    }
+        pokemonArr.push(new Pokemon(
+            Number(pokeEntriesData[i].entry_number), 
+            pokeEntriesData[i].pokemon_species.name,
+            pokeEntriesData[i].pokemon_species.url));
+    }  
+    
 }
 
+console.log(pokemonArr);
 
 
 class Pokemon {
