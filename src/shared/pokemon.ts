@@ -10,7 +10,7 @@ export class Pokemon {
         this.id = id;
         this.name = name;
         this.url = url;
-        this.img = "";
+        this.img = `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${this.id}.png`;
         this.height = 0;
         this.weight = 0;
         // this.generation = generation;
@@ -35,8 +35,7 @@ export class Pokemon {
         if(pokemonDiv.className === "pokemonInfoHidden") {
             pokemonDiv.className = "pokemonInfo";
             pokemonDiv.innerHTML = 
-            `
-            <p>weight: ${this.weight}</p>
+            `<p>weight: ${this.weight}</p>
             <p>height: ${this.height}</p>`;
         } else {
             pokemonDiv.className = "pokemonInfoHidden";
