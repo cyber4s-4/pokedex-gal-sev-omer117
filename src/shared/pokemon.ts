@@ -10,40 +10,17 @@ export class Pokemon {
     attack;
     defense;
 
-    constructor(id: number, name: string, url: string) {
+    constructor(id: number, name: string, url: string, img: string, height: number, weight: number, hp: number, attack: number, defense: number, types: string[]) {
         this.id = id;
         this.name = name;
         this.url = url;
-        this.img = `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${this.id}.png`;
-        this.height = 0;
-        this.weight = 0;
-        this.types = [];
-        this.hp = 0;
-        this.attack = 0;
-        this.defense = 0;
-        // this.generation = generation;
-    }
-
-    getExtraData() {
-        let pokemon_url = "https://pokeapi.co/api/v2/pokemon/"  + this.name;
-        fetch(pokemon_url)
-            .then(res => res.json())
-            .then(infoData => this.handleInfoData(infoData))
-            .then(() => this.renderInfoData());
-    }
-
-    handleInfoData(infoData: any) {
-        this.img = infoData.sprites.front_default;
-        this.height = infoData.height;
-        this.weight = infoData.weight;
-        this.hp = infoData.stats[5].base_stat; //hp
-        this.attack = infoData.stats[4].base_stat; //attack
-        this.defense = infoData.stats[3].base_stat; //defense
-        this.types = [];
-        for (let i = 0; i < infoData.types.length; i++) {
-            this.types.push(infoData.types[i].type.name);
-        }
-        
+        this.img = img;
+        this.height = height;
+        this.weight = weight;
+        this.hp = hp;
+        this.attack = attack;
+        this.defense = defense;
+        this.types = types;
     }
 
     renderInfoData() {
@@ -68,7 +45,7 @@ export class Pokemon {
         pokemonDiv.id = 'pokemon-'+ this.id;
         pokemonDiv.className = "pokemon";
         pokemonDiv.addEventListener('click', () => {
-            this.getExtraData();
+            this.renderInfoData();
         });
         pokemonDiv.innerHTML = 
         `<div class="imgDiv"><img src="${this.img}" alt="pokemon_image"></img></div>
@@ -81,7 +58,9 @@ export class Pokemon {
             <p>hp: ${this.hp}</p>
             <p>attack: ${this.attack}</p>
             <p>defense: ${this.defense}</p>
-            <p>types: ${this.types}</p>
+            <div>
+                <p>types: ${this.types}</p>
+            </div>
         </div>`;
         pokemonList.appendChild(pokemonDiv);
     }
