@@ -1,29 +1,51 @@
-header{
-max-width: max-content;
-max-height: 400px;
+body {
+    font-family: 'VT323', monospace;
+    max-width: 93%
 }
 
-main{
+.headLine {
+    max-width: 100%;
+    height: 120px;
+    background-color: #2C3639;
+    text-align: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    p {
+        color: #fff;
+    }
+}
 
-    .pokemonList{
+main {
+
+    .pokemonSearchInput {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+
+        #pokemonSearch {
+            margin-right: 10%;
+        }
+    }
+
+
+    .pokemonList {
 
 
 
-        &:hover{
+        &:hover {
             background-color: #F5F0BB;
 
         }
-        .pokemon{
+
+        .pokemon {
             display: flex;
             justify-content: space-evenly;
 
 
-            .pokemonInfo{
+            .pokemonInfo {}
 
-
-            }
-
-            .pokemonInfoHidden{
+            .pokemonInfoHidden {
                 display: none;
 
             }
