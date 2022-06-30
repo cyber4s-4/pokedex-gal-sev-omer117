@@ -10,10 +10,8 @@ input_label.addEventListener("click", updatePokemonHtml);
 
 let currentMaxPage = 1;
 window.addEventListener("scroll", () => {
-    console.log(window.scrollY + " " + currentMaxPage);
-    if((currentMaxPage === 1 && window.scrollY >= currentMaxPage * 280) || window.scrollY >= 300 + (1000 * (currentMaxPage-1))) {
+    if((currentMaxPage === 1 && window.scrollY >= currentMaxPage * 280) || window.scrollY >= 200 + (950 * (currentMaxPage-1))) {
         currentMaxPage++;
-        
         updatePokemonHtml();
     }
     console.log(currentMaxPage);
