@@ -24,7 +24,43 @@ body {
     }
 }
 
+
+button {
+    font-family: 'VT323', monospace;
+    background-color: #222;
+    border-radius: 4px;
+    border-style: none;
+    box-sizing: border-box;
+    color: #fff;
+    cursor: pointer;
+    display: inline-block;
+    font-size: 16px;
+    font-weight: 700;
+    line-height: 1.5;
+    margin: 0;
+    max-width: none;
+    min-height: 44px;
+    min-width: 10px;
+    outline: none;
+    overflow: hidden;
+    padding: 9px 20px 8px;
+    position: relative;
+    text-align: center;
+    text-transform: none;
+    user-select: none;
+    -webkit-user-select: none;
+    touch-action: manipulation;
+    width: fit-content;
+
+    &:hover,
+    &:focus {
+        opacity: .75;
+    }
+}
+
 main {
+    font-size: 20px;
+
 
     .pokemonSearchInput {
         display: flex;
@@ -88,67 +124,86 @@ main {
 
             }
 
-            .typeDiv{
+            .typeDiv {
                 width: 8%;
                 display: flex;
                 justify-content: start;
                 flex-direction: column;
                 color: white;
+
                 .types {
                     border-radius: 5px;
                     margin-bottom: 3px;
                 }
+
                 #normal {
                     background-color: #a8a878;
                 }
+
                 #fire {
                     background-color: #f08030;
                 }
+
                 #water {
                     background-color: #6890f0;
                 }
+
                 #grass {
                     background-color: #78c850;
                 }
+
                 #electric {
                     background-color: #f8d030;
                 }
+
                 #ice {
                     background-color: #98d8d8;
                 }
+
                 #fighting {
                     background-color: #c03028;
                 }
+
                 #poison {
                     background-color: #a040a0;
                 }
+
                 #ground {
                     background-color: #e0c068;
                 }
+
                 #flying {
                     background-color: #a890f0;
                 }
+
                 #Psychic {
                     background-color: #f85888;
                 }
+
                 #bug {
                     background-color: #b8a038;
                 }
+
                 #rock {
                     background-color: #b8a038;
                 }
+
                 #ghost {
                     background-color: #705898;
                 }
+
                 #dark {
                     background-color: #705848;
                 }
+
                 #dragon {
                     background-color: #7038f8;
                 }
+
                 #steel {
                     background-color: #b8b8d0;
                 }
+
                 #fairy {
                     background-color: #efb5bb;
                 }
