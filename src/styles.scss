@@ -33,15 +33,16 @@ main {
 
 
 
-        &:hover {
-            background-color: #F5F0BB;
-
-        }
+        
 
         .pokemon {
             display: flex;
             justify-content: space-evenly;
 
+            &:hover {
+                background-color: #F5F0BB;
+    
+            }
 
             .pokemonInfo {}
 
