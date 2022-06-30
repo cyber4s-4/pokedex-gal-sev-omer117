@@ -1,0 +1,32 @@
+header{
+max-width: max-content;
+max-height: 400px;
+}
+
+main{
+
+    .pokemonList{
+
+
+
+        &:hover{
+            background-color: #F5F0BB;
+
+        }
+        .pokemon{
+            display: flex;
+            justify-content: space-evenly;
+
+
+            .pokemonInfo{
+
+
+            }
+
+            .pokemonInfoHidden{
+                display: none;
+
+            }
+        }
+    }
+}
