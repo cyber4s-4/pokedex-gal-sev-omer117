@@ -12,9 +12,15 @@ body {
     display: flex;
     justify-content: center;
     align-items: center;
+    margin-bottom: 4%;
 
     p {
-        color: #fff;
+        color: #ffffff;
+        font-size: 32px;
+
+        &:hover {
+            text-shadow: 0 0 10px #fff, 0 0 20px #fff, 0 0 30px #ede7ea, 0 0 40px #d2ced0;
+        }
     }
 }
 
@@ -24,9 +30,16 @@ main {
         display: flex;
         justify-content: center;
         align-items: center;
+        margin-bottom: 4%;
 
         #pokemonSearch {
             margin-right: 10%;
+            border-radius: 5px;
+        }
+
+
+        #Searchbtn {
+            
         }
     }
 
@@ -40,9 +53,9 @@ main {
         .pokemon {
             display: flex;
             justify-content: space-evenly;
-            // gap: 15%;
             align-items: center;
             text-align: center;
+            flex-wrap: wrap;
 
             &:hover {
                 background-color: #F5F0BB;
@@ -54,7 +67,8 @@ main {
                 height: auto;
                 justify-self: start;
                 text-align: start;
-                img{
+
+                img {
 
                     width: 100%;
                     height: 100%;
@@ -80,31 +94,32 @@ main {
                 justify-self: start;
                 text-align: start;
 
-                button{
-                display: flex;
-                flex-direction: column;
-                align-items: center;
-                padding: 6px 14px;
-                font-family: -apple-system, BlinkMacSystemFont, 'Roboto', sans-serif;
-                border-radius: 6px;
-                border: none;
-                color: #fff;
-                background: linear-gradient(180deg, #4B91F7 0%, #367AF6 100%);
-                background-origin: border-box;
-                box-shadow: 0px 0.5px 1.5px rgba(54, 122, 246, 0.25), inset 0px 0.8px 0px -0.25px rgba(255, 255, 255, 0.2);
-                user-select: none;
-                -webkit-user-select: none;
-                touch-action: manipulation;
-                &:focus {
-                    box-shadow: inset 0px 0.8px 0px -0.25px rgba(255, 255, 255, 0.2), 0px 0.5px 1.5px rgba(54, 122, 246, 0.25), 0px 0px 0px 3.5px rgba(58, 108, 217, 0.5);
-                    outline: 0;
-                }
+                button {
+                    display: flex;
+                    flex-direction: column;
+                    align-items: center;
+                    padding: 6px 14px;
+                    font-family: -apple-system, BlinkMacSystemFont, 'Roboto', sans-serif;
+                    border-radius: 6px;
+                    border: none;
+                    color: #fff;
+                    background: linear-gradient(180deg, #4B91F7 0%, #367AF6 100%);
+                    background-origin: border-box;
+                    box-shadow: 0px 0.5px 1.5px rgba(54, 122, 246, 0.25), inset 0px 0.8px 0px -0.25px rgba(255, 255, 255, 0.2);
+                    user-select: none;
+                    -webkit-user-select: none;
+                    touch-action: manipulation;
 
-                a{
-                    color : #fff;
-                    text-decoration: none;
+                    &:focus {
+                        box-shadow: inset 0px 0.8px 0px -0.25px rgba(255, 255, 255, 0.2), 0px 0.5px 1.5px rgba(54, 122, 246, 0.25), 0px 0px 0px 3.5px rgba(58, 108, 217, 0.5);
+                        outline: 0;
+                    }
+
+                    a {
+                        color: #fff;
+                        text-decoration: none;
+                    }
                 }
-            }
             }
 
             .pokemonInfoHidden {
