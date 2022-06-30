@@ -14,8 +14,6 @@ window.addEventListener("scroll", () => {
         currentMaxPage++;
         updatePokemonHtml();
     }
-    console.log(currentMaxPage);
-    
 });
 
 
@@ -28,7 +26,6 @@ function handleData(data: any) {
             pokeEntriesData[i].pokemon_species.name,
             pokeEntriesData[i].pokemon_species.url
             ));
-        // pokemonArr[i].createPokeElement();
     }
     updatePokemonHtml();
     
@@ -54,6 +51,5 @@ function updatePokemonHtml() {
     }
 }
 
-console.log(pokemonArr);
 
 
