@@ -25,7 +25,7 @@ export class Pokemon {
     }
 
     getExtraData() {
-        let pokemon_url = "https://pokeapi.co/api/v2/pokemon/"  + this.name;
+        let pokemon_url = "https://pokeapi.co/api/v2/pokemon/" + this.name;
         fetch(pokemon_url)
             .then(res => res.json())
             .then(infoData => this.handleInfoData(infoData))
@@ -43,24 +43,32 @@ export class Pokemon {
         for (let i = 0; i < infoData.types.length; i++) {
             this.types.push(infoData.types[i].type.name);
         }
-        
+
     }
 
-    renderInfoData(hide=false) {
+    getTypesAsP() {
+        let typesStrings = "";
+        for (let i = 0; i < this.types.length; i++) {
+            typesStrings += `<p> ${this.types[i]}</p>`;
+        }
+        return typesStrings;
+    }
+
+    renderInfoData(hide = false) {
         let pokemonDiv = document.getElementById(`pokemon-${this.id}`) as HTMLDivElement;
         let pokemonInfoDiv = document.getElementById(`pokemonInfo-${this.id}`) as HTMLDivElement;
         let infoClass = "pokemonInfo";
-        if(pokemonInfoDiv.className === "pokemonInfoHidden" && !hide) {
+        if (pokemonInfoDiv.className === "pokemonInfoHidden" && !hide) {
             infoClass = "pokemonInfo";
         } else {
             infoClass = "pokemonInfoHidden";
         }
-        pokemonDiv.innerHTML = 
-        `<div class="imgDiv"><img src="${this.img}" alt="pokemon_image"></img></div>
+        pokemonDiv.innerHTML =
+            `<div class="imgDiv"><img src="${this.img}" alt="pokemon_image"></img></div>
         <div class="idDiv"><p>${this.id}</p></div>
         <div class="nameDiv"><p>${this.name}</p></div>
-        <div>
-            <p>types: ${this.types}</p>
+        <div class="typeDiv">
+        ${this.getTypesAsP()}
         </div>
         <div class="APIDiv"><button><a href=${this.url}>API here!</a></button></div>
         <div class="${infoClass}" id="pokemonInfo-${this.id}">
@@ -88,13 +96,13 @@ export class Pokemon {
     createPokeElement() {
         let pokemonList = document.getElementById("pokemonList") as HTMLDivElement;
         let pokemonDiv = document.createElement("div") as HTMLDivElement;
-        pokemonDiv.id = 'pokemon-'+ this.id;
+        pokemonDiv.id = 'pokemon-' + this.id;
         pokemonDiv.className = "pokemon";
         pokemonDiv.addEventListener('click', () => {
             this.renderInfoData();
         });
-        pokemonDiv.innerHTML = 
-        `<div class="imgDiv"><img src="${this.img}" alt="pokemon_image"></img></div>
+        pokemonDiv.innerHTML =
+            `<div class="imgDiv"><img src="${this.img}" alt="pokemon_image"></img></div>
         <div class="idDiv"><p>${this.id}</p></div>
         <div class="nameDiv"><p>${this.name}</p></div>
         <div class="APIDiv"><button><a href=${this.url}>API here!</a></button></div>
