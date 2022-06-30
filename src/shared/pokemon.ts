@@ -54,7 +54,7 @@ export class Pokemon {
         `<div class="imgDiv"><img src="${this.img}" alt="pokemon_image"></img></div>
         <div class="idDiv"><p>${this.id}</p></div>
         <div class="nameDiv"><p>${this.name}</p></div>
-        <div class="APIHref"><a href=${this.url}>API here!</a></div>
+        <div class="APIDiv"><button><a href=${this.url}>API here!</a></button></div>
         <div class="pokemonInfoHidden" id="pokemonInfo-${this.id}">
             <p>weight: ${this.weight}</p>
             <p>height: ${this.height}</p>
