@@ -20,13 +20,27 @@ export class Pokemon {
         let pokemon_url = "https://pokeapi.co/api/v2/pokemon/"  + this.name;
         fetch(pokemon_url)
             .then(res => res.json())
-            .then(infoData => this.handleInfoData(infoData));
+            .then(infoData => this.handleInfoData(infoData))
+            .then(() => this.renderInfoData());
     }
 
     handleInfoData(infoData: any) {
         this.img = infoData.sprites.front_default;
         this.height = infoData.height;
         this.weight = infoData.weight;
+    }
+
+    renderInfoData() {
+        let pokemonDiv = document.getElementById(`pokemonInfo-${this.id}`) as HTMLDivElement;
+        if(pokemonDiv.className === "pokemonInfoHidden") {
+            pokemonDiv.className = "pokemonInfo";
+            pokemonDiv.innerHTML = 
+            `<img src="${this.img}" alt="pokemon_image"></img>
+            <p>weight: ${this.weight}</p>
+            <p>height: ${this.height}</p>`;
+        } else {
+            pokemonDiv.className = "pokemonInfoHidden";
+        }
     }
 
     createPokeElement() {
@@ -36,17 +50,15 @@ export class Pokemon {
         pokemonDiv.className = "pokemon";
         pokemonDiv.addEventListener('click', () => {
             this.getExtraData();
-            console.log(this);
-            //make this update the div with the info after getExtraData
-            //maybe return promise from getExtraData and use .then here to update
-            //after the fetch finished
         });
         pokemonDiv.innerHTML = 
         `<p>${this.name}</p>
         <p>${this.id}</p>
         <p>${this.url}</p>
-        <div class="pokemonInfo" id="pokemonInfo">
-            <p>${this.id}</p>
+        <div class="pokemonInfoHidden" id="pokemonInfo-${this.id}">
+            <img src="${this.img}" alt="pokemon_image"></img>
+            <p>weight: ${this.weight}</p>
+            <p>height: ${this.height}</p>
         </div>`;
         pokemonList.appendChild(pokemonDiv);
     }
