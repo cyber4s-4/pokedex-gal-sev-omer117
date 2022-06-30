@@ -49,7 +49,7 @@ export class Pokemon {
     getTypesAsP() {
         let typesStrings = "";
         for (let i = 0; i < this.types.length; i++) {
-            typesStrings += `<div class="types" id="${this.types[i]}> ${this.types[i]}</div>`;
+            typesStrings += `<div class="types" id="${this.types[i]}"> ${this.types[i]}</div>`;
         }
         return typesStrings;
     }
@@ -78,19 +78,6 @@ export class Pokemon {
             <p>attack: ${this.attack}</p>
             <p>defense: ${this.defense}</p>
         </div>`;
-        // let pokemonDiv = document.getElementById(`pokemonInfo-${this.id}`) as HTMLDivElement;
-        // if(pokemonDiv.className === "pokemonInfoHidden" && !hide) {
-        //     pokemonDiv.className = "pokemonInfo";
-        //     pokemonDiv.innerHTML = 
-        //     `<p>weight: ${this.weight}</p>
-        //     <p>height: ${this.height}</p>
-        //     <p>hp: ${this.hp}</p>
-        //     <p>attack: ${this.attack}</p>
-        //     <p>defense: ${this.defense}</p>
-        //     <p>types: ${this.types}</p>`;
-        // } else {
-        //     pokemonDiv.className = "pokemonInfoHidden";
-        // }
     }
 
     createPokeElement() {
