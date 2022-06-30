@@ -35,7 +35,7 @@ export class Pokemon {
         if(pokemonDiv.className === "pokemonInfoHidden") {
             pokemonDiv.className = "pokemonInfo";
             pokemonDiv.innerHTML = 
-            `<img src="${this.img}" alt="pokemon_image"></img>
+            `
             <p>weight: ${this.weight}</p>
             <p>height: ${this.height}</p>`;
         } else {
@@ -52,24 +52,15 @@ export class Pokemon {
             this.getExtraData();
         });
         pokemonDiv.innerHTML = 
-        `<p>${this.name}</p>
-        <p>${this.id}</p>
-        <p>${this.url}</p>
+        `<div><img src="${this.img}" alt="pokemon_image"></img></div>
+        <div><p>${this.id}</p></div>
+        <div><p>${this.name}</p></div>
+        <div class="APIHref"><a href=${this.url}>API here!</a></div>
         <div class="pokemonInfoHidden" id="pokemonInfo-${this.id}">
-            <img src="${this.img}" alt="pokemon_image"></img>
             <p>weight: ${this.weight}</p>
             <p>height: ${this.height}</p>
         </div>`;
         pokemonList.appendChild(pokemonDiv);
     }
-        
-    // <img class="laptop-img" src="${product.photo}">
-    // <div class="mid-div">
-    //   <div class="laptop-name">${product.name}</div>
-    //   <div class="laptop-info"></div>
-    // </div>
-    // <div class="left-div">
-    //   <img class="laptop-logo" src="${product.logoPhoto}">
-    //   <div class="laptop-price">₪${product.price}</div>
-    // </div>
+
 }
