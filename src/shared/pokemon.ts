@@ -6,13 +6,13 @@ export class Pokemon {
     height;
     weight;
 
-    constructor(id: number, name: string, url: string, img: string, height: number, weight: number) {
+    constructor(id: number, name: string, url: string) {
         this.id = id;
         this.name = name;
         this.url = url;
-        this.img = img;
-        this.height = height;
-        this.weight = weight;
+        this.img = "";
+        this.height = 0;
+        this.weight = 0;
         // this.generation = generation;
     }
 
@@ -31,16 +31,24 @@ export class Pokemon {
 
     createPokeElement() {
         let pokemonList = document.getElementById("pokemonList") as HTMLDivElement;
-        
-        pokemonList!.innerHTML += 
-        `<div class="pokemon" id="pokemon-${this.id.toString()}">
-            <h1>${this.name}</h1>
+        let pokemonDiv = document.createElement("div") as HTMLDivElement;
+        pokemonDiv.id = 'pokemon-'+ this.id;
+        pokemonDiv.className = "pokemon";
+        pokemonDiv.addEventListener('click', () => {
+            this.getExtraData();
+            console.log(this);
+            //make this update the div with the info after getExtraData
+            //maybe return promise from getExtraData and use .then here to update
+            //after the fetch finished
+        });
+        pokemonDiv.innerHTML = 
+        `<p>${this.name}</p>
+        <p>${this.id}</p>
+        <p>${this.url}</p>
+        <div class="pokemonInfo" id="pokemonInfo">
             <p>${this.id}</p>
-            <p>${this.url}</p>
-            <div class="pokemonInfo" id="pokemonInfo">
-                <p>${this.id}</p>
-            </div>
         </div>`;
+        pokemonList.appendChild(pokemonDiv);
     }
         
     // <img class="laptop-img" src="${product.photo}">

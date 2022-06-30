@@ -35,17 +35,6 @@ function filterByName() {
     return filteredArr;
 }
 
-for(let i = 0; i<pokemonArr.length;i++){
-    let pokemonIdSomething = document.getElementById('pokemon-'+ i) as HTMLDivElement;
-    console.log(pokemonIdSomething);
-    
-    pokemonIdSomething.addEventListener('click', () => {
-        pokemonArr[i].getExtraData();
-        console.log(pokemonArr[i]);
-    });
-}
-
-
 function updatePokemonHtml() {
     let filteredArr = filterByName();
     let pokemonList = document.getElementById("pokemonList") as HTMLDivElement;
