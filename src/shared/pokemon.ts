@@ -5,6 +5,10 @@ export class Pokemon {
     img;
     height;
     weight;
+    types: string[];
+    hp;
+    attack;
+    defense;
 
     constructor(id: number, name: string, url: string) {
         this.id = id;
@@ -13,6 +17,10 @@ export class Pokemon {
         this.img = `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${this.id}.png`;
         this.height = 0;
         this.weight = 0;
+        this.types = [];
+        this.hp = 0;
+        this.attack = 0;
+        this.defense = 0;
         // this.generation = generation;
     }
 
@@ -28,6 +36,14 @@ export class Pokemon {
         this.img = infoData.sprites.front_default;
         this.height = infoData.height;
         this.weight = infoData.weight;
+        this.hp = infoData.stats[5].base_stat; //hp
+        this.attack = infoData.stats[4].base_stat; //attack
+        this.defense = infoData.stats[3].base_stat; //defense
+        this.types = [];
+        for (let i = 0; i < infoData.types.length; i++) {
+            this.types.push(infoData.types[i].type.name);
+        }
+        
     }
 
     renderInfoData() {
@@ -36,7 +52,11 @@ export class Pokemon {
             pokemonDiv.className = "pokemonInfo";
             pokemonDiv.innerHTML = 
             `<p>weight: ${this.weight}</p>
-            <p>height: ${this.height}</p>`;
+            <p>height: ${this.height}</p>
+            <p>hp: ${this.hp}</p>
+            <p>attack: ${this.attack}</p>
+            <p>defense: ${this.defense}</p>
+            <p>types: ${this.types}</p>`;
         } else {
             pokemonDiv.className = "pokemonInfoHidden";
         }
@@ -58,6 +78,10 @@ export class Pokemon {
         <div class="pokemonInfoHidden" id="pokemonInfo-${this.id}">
             <p>weight: ${this.weight}</p>
             <p>height: ${this.height}</p>
+            <p>hp: ${this.hp}</p>
+            <p>attack: ${this.attack}</p>
+            <p>defense: ${this.defense}</p>
+            <p>types: ${this.types}</p>
         </div>`;
         pokemonList.appendChild(pokemonDiv);
     }
