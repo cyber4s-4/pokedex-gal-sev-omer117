@@ -49,7 +49,7 @@ export class Pokemon {
     getTypesAsP() {
         let typesStrings = "";
         for (let i = 0; i < this.types.length; i++) {
-            typesStrings += `<p> ${this.types[i]}</p>`;
+            typesStrings += `<div class="types" id="${this.types[i]}> ${this.types[i]}</div>`;
         }
         return typesStrings;
     }
