@@ -11,6 +11,7 @@ body {
     display: flex;
     justify-content: center;
     align-items: center;
+
     p {
         color: #fff;
     }
@@ -33,19 +34,45 @@ main {
 
 
 
-        
+
 
         .pokemon {
             display: flex;
-            justify-content: start;
-            gap: 15%;
+            justify-content: space-evenly;
+            // gap: 15%;
             align-items: center;
             text-align: center;
+
             &:hover {
                 background-color: #F5F0BB;
-    
+
             }
 
+            .imgDiv {
+                width: 70px;
+                height: 70px;
+                justify-self: start;
+                text-align: start;
+            }
+
+            .nameDiv {
+                width: 10%;
+                justify-self: start;
+                text-align: start;
+
+            }
+
+            .idDiv {
+                justify-self: start;
+                text-align: start;
+
+            }
+
+            .APIDiv {
+                justify-self: start;
+                text-align: start;
+
+            }
 
             .pokemonInfoHidden {
                 display: none;
