@@ -1,6 +1,6 @@
 import { Pokemon } from "./shared/pokemon";
 
-let pokeEntriesFetch = fetch('https://pokeapi.co/api/v2/pokedex/1')
+fetch('https://pokeapi.co/api/v2/pokedex/1')
     .then(res => res.json())
     .then(data => handleData(data));
 
@@ -8,15 +8,16 @@ let pokemonArr: Pokemon[] = [];
 let input_label = document.getElementById("pokemonSearchLabel") as HTMLLabelElement;
 input_label.addEventListener("click", updatePokemonHtml);
 
+// Pagination event handler
 let currentMaxPage = 1;
 window.addEventListener("scroll", () => {
-    if((currentMaxPage === 1 && window.scrollY >= currentMaxPage * 280) || window.scrollY >= 200 + (950 * (currentMaxPage-1))) {
+    if((currentMaxPage === 1 && window.scrollY >= currentMaxPage * 1700) || window.scrollY >= 1700 + (2300 * (currentMaxPage-1))) {
         currentMaxPage++;
         updatePokemonHtml();
     }
 });
 
-
+// Stores data from api in pokemonArr as Pokemons
 function handleData(data: any) {
     let pokeEntriesData = data.pokemon_entries;
     for (let i = 0; i < pokeEntriesData.length; i++) {
@@ -27,9 +28,9 @@ function handleData(data: any) {
             ));
     }
     updatePokemonHtml();
-    
 }
 
+// Filters the pokemonArr by a given input and returns the result
 function filterByName() {
     let input_value = (<HTMLInputElement>document.getElementById("pokemonSearch")).value;
     let filteredArr: Pokemon[] = [];
@@ -41,13 +42,14 @@ function filterByName() {
     return filteredArr;
 }
 
+// Renders the pokemons based on the filter and page number 
 function updatePokemonHtml() {
     let filteredArr = filterByName();
     let pokemonList = document.getElementById("pokemonList") as HTMLDivElement;
     pokemonList.innerHTML = "";
     for (let i = 0; i < currentMaxPage*20 && i < filteredArr.length; i++) {
         filteredArr[i].getExtraData();
-        filteredArr[i].createPokeElement();        
+        filteredArr[i].createPokeElement();
     }
 }
 

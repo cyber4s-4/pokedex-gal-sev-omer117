@@ -61,7 +61,6 @@ button {
 main {
     font-size: 20px;
 
-
     .pokemonSearchInput {
         display: flex;
         justify-content: center;
@@ -71,18 +70,12 @@ main {
         #pokemonSearch {
             margin-right: 10%;
             border-radius: 5px;
+            font-size: 25px;
+            font-family: 'VT323', monospace;
         }
-
-
-        #Searchbtn {}
     }
 
-
     .pokemonList {
-
-
-
-
 
         .pokemon {
             display: flex;
@@ -90,10 +83,11 @@ main {
             align-items: center;
             text-align: center;
             flex-wrap: wrap;
+            border-radius: 10px;
 
             &:hover {
                 background-color: #F5F0BB;
-
+                transform: scale(1.05);
             }
 
             .imgDiv {
@@ -110,7 +104,7 @@ main {
             }
 
             .nameDiv {
-                width: 10%;
+                width: 120px;
                 justify-self: start;
                 text-align: start;
                 font-size: larger;
@@ -125,7 +119,7 @@ main {
             }
 
             .typeDiv {
-                width: 8%;
+                width: 80px;
                 display: flex;
                 justify-content: start;
                 flex-direction: column;
@@ -176,7 +170,7 @@ main {
                     background-color: #a890f0;
                 }
 
-                #Psychic {
+                #psychic {
                     background-color: #f85888;
                 }
 
