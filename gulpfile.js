@@ -76,6 +76,13 @@ gulp.task('tsc-w', () => {
   exec('tsc -w');
 });
 
+// Start express
+gulp.task('express', () => {
+  const tsc = exec('node ./backend/express.js');
+  tsc.stdout.on('data', data => console.log(data));
+  tsc.stderr.on('data', data => console.error(data));
+});
+
 // Run all together
 gulp.task('default', gulp.series(
   'start',
