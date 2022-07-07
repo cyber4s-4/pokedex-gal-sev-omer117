@@ -52,6 +52,3 @@ function updatePokemonHtml() {
         filteredArr[i].createPokeElement();
     }
 }
-
-
-

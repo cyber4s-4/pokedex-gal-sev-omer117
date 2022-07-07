@@ -78,7 +78,7 @@ gulp.task('tsc-w', () => {
 
 // Start express
 gulp.task('express', () => {
-  const tsc = exec('node ./backend/express.js');
+  const tsc = exec('nodemon ./backend/server.js');
   tsc.stdout.on('data', data => console.log(data));
   tsc.stderr.on('data', data => console.error(data));
 });
@@ -97,5 +97,6 @@ gulp.task('default', gulp.series(
     'watch-html',
     'watch-tsc',
     'tsc-w',
+    'express',
   ),
 ));
