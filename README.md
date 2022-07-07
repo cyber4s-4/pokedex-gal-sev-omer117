@@ -1,35 +1,17 @@
-## Pokedex Task
+# Pokedex-2 Task
 
-In this task you will build your own pokédex!
+In this task you will add a server to you pokédex!
 
-A pokédex is a website with a catalog of Pokémon. It shows various information on different species of Pokémon. The name Pokédex is a neologism including "Pokémon" (which itself is a portmanteau of "pocket" and "monster") and "index".
+In the previous task, we used the API from https://pokeapi.co.
 
-Here's some pokédex examples to give you inspiration:
-* https://www.pokemon.com/us/pokedex
-* https://pokemondb.net/pokedex/all
-* https://pokemon.gameinfo.io
+Now, we will instead use our own server.
 
-In this project, you will learn how to use an API called https://pokeapi.co, which will provide the pokémon information.
+## Instructions
 
-The implementation should be in TypeScript and SCSS.
-
-
-# Instructions
-- Investigate the API. Good starting points are:
-https://pokeapi.co/api/v2/pokedex/1
-https://pokeapi.co/api/v2/generation/1
-
-  Try to build a mental model in your head of what information is available, how it's connected, and what information you think you'll need, and which API calls need to be made to get that information.
-
-- Build a simple pokédex first with just a list of Pokémon, without information on each one.
-
-- Add a search bar that filters that list based on the Pokémon name.
-
-- Get more information on the Pokémon such as height weight and image via the API.
-
-- Show this information - either on the main search page, or on a specific Pokémon page (such as /pokemon/<id>).
-
+* Write a script that makes a series of requests to `pokeapi.co` API and saves the results in local json files.
+* Optional step: Reorganize these files in a way that "makes sense" for you for using them in the following step.
+* Return the data to your webapp using your own server. Your server should read the data from files - similar to the server in lesson `33-express-2`.
 
 ## Bonus
 
-Go wild! Further investigate the API and see if you can add interesting information and features to your pokédex.
+Add a post request that allows the user to mark a Pokémon as a favorite, and add a UI to work with that request (e.g a star that the user can press to mark the Pokémon as a favorite).
