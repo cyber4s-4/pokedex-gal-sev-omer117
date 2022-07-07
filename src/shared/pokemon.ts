@@ -44,7 +44,6 @@ export class Pokemon {
         for (let i = 0; i < infoData.types.length; i++) {
             this.types.push(infoData.types[i].type.name);
         }
-
     }
 
     // Return each type from types array as an html element
