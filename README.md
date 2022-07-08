@@ -1,3 +1,9 @@
+# Notes:
+Server is on port 4002,
+open http://localhost:4002/getApi to run the script that updates data.json from the api (the server console will tell you when its finished updating the file)
+open http://localhost:4002/getData to run get the data.json from the server
+open http://localhost:4002/ or http://localhost:4000/ to see the website
+
 # Pokedex-2 Task
 
 In this task you will add a server to you pokédex!
