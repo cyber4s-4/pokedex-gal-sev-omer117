@@ -1,6 +1,6 @@
 import { Pokemon } from "./shared/pokemon";
 
-fetch('https://pokeapi.co/api/v2/pokedex/1')
+fetch('http://localhost:4002/getData')
     .then(res => res.json())
     .then(data => handleData(data));
 
@@ -19,12 +19,18 @@ window.addEventListener("scroll", () => {
 
 // Stores data from api in pokemonArr as Pokemons
 function handleData(data: any) {
-    let pokeEntriesData = data.pokemon_entries;
-    for (let i = 0; i < pokeEntriesData.length; i++) {
+    for (let i = 0; i < data.length; i++) {
         pokemonArr.push(new Pokemon(
-            Number(pokeEntriesData[i].entry_number), 
-            pokeEntriesData[i].pokemon_species.name,
-            pokeEntriesData[i].pokemon_species.url
+            Number(data[i].id), 
+            data[i].name,
+            data[i].url,
+            `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${data[i].id}.png`,
+            data[i].height,
+            data[i].weight,
+            data[i].types,
+            data[i].hp,
+            data[i].attack,
+            data[i].defense,
             ));
     }
     updatePokemonHtml();
@@ -48,7 +54,7 @@ function updatePokemonHtml() {
     let pokemonList = document.getElementById("pokemonList") as HTMLDivElement;
     pokemonList.innerHTML = "";
     for (let i = 0; i < currentMaxPage*20 && i < filteredArr.length; i++) {
-        filteredArr[i].getExtraData();
         filteredArr[i].createPokeElement();
+        filteredArr[i].renderInfoData(true);
     }
 }

@@ -10,40 +10,18 @@ export class Pokemon {
     attack;
     defense;
 
-    constructor(id: number, name: string, url: string) {
+    constructor(id: number, name: string, url: string, img: string,
+        height: number, weight: number, types: [], hp: number, attack: number, defense: number) {
         this.id = id;
         this.name = name;
         this.url = url;
-        this.img = `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${this.id}.png`;
-        this.height = 0;
-        this.weight = 0;
-        this.types = [];
-        this.hp = 0;
-        this.attack = 0;
-        this.defense = 0;
-    }
-
-    // Fetches the extra data from the pokemons specific api
-    getExtraData() {
-        let pokemon_url = "https://pokeapi.co/api/v2/pokemon/" + this.name;
-        fetch(pokemon_url)
-            .then(res => res.json())
-            .then(infoData => this.handleInfoData(infoData))
-            .then(() => this.renderInfoData(true));
-    }
-
-    // Update the extra data to the Pokemon
-    handleInfoData(infoData: any) {
-        this.img = infoData.sprites.front_default;
-        this.height = infoData.height;
-        this.weight = infoData.weight;
-        this.hp = infoData.stats[5].base_stat; //hp
-        this.attack = infoData.stats[4].base_stat; //attack
-        this.defense = infoData.stats[3].base_stat; //defense
-        this.types = [];
-        for (let i = 0; i < infoData.types.length; i++) {
-            this.types.push(infoData.types[i].type.name);
-        }
+        this.img = img;
+        this.height = height;
+        this.weight = weight;
+        this.types = types;
+        this.hp = hp;
+        this.attack = attack;
+        this.defense = defense;
     }
 
     // Return each type from types array as an html element
@@ -54,6 +32,7 @@ export class Pokemon {
         }
         return typesStrings;
     }
+    
     // Renders the data from the Pokemon to the HTML
     renderInfoData(hide = false) {
         let pokemonDiv = document.getElementById(`pokemon-${this.id}`) as HTMLDivElement;
