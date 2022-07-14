@@ -5,6 +5,9 @@ import { json } from 'body-parser';
 import { Pokemon } from 'src/client/shared/pokemon';
 import fetch from 'cross-fetch';
 import fs from 'fs';
+import { connect, create, getPokemonsDB } from './mongo';
+import { Collection } from 'mongodb';
+import { writeData } from './serverFunctions';
 
 const app: Express = express();
 app.use(cors());
@@ -14,6 +17,9 @@ const root: string = path.join(process.cwd(), 'dist');
 app.use(express.static(root));
 
 let readFileData: JSON = JSON.parse("[]");
+
+let collection: Collection<Pokemon>;
+connect(create()).then(res => collection = res);
 
 const filePath = path.join(__dirname, "./data/data.json");
 const folderPath = path.join(__dirname, "./data");
@@ -31,7 +37,7 @@ if(fs.existsSync(filePath)) {
   console.log("data.json doesn't exist, getting api to data.json");
     fetch('https://pokeapi.co/api/v2/pokedex/1')
     .then(res => res.json())
-    .then(data => writeData(data))
+    .then(data => writeData(data, filePath, readFileData, collection));
 }
 
 app.use(express.static(root), (_req, _res, next) => {
@@ -44,49 +50,11 @@ app.get('/getApi', (_req, res) => {
     res.sendFile(path.join(root, 'index.html'));
     fetch('https://pokeapi.co/api/v2/pokedex/1')
     .then(res => res.json())
-    .then(data => writeData(data))
+    .then(data => writeData(data, filePath, readFileData, collection));
 });
 
-// Write the data from the api to the data.json
-async function writeData(data: any) {
-    let pokemonArr: Pokemon[] = [];
-    let pokeEntriesData = data.pokemon_entries;
-    for (let i = 0; i < pokeEntriesData.length; i++) {
-        let pokemon_url =  "https://pokeapi.co/api/v2/pokemon/" + pokeEntriesData[i].pokemon_species.name;
-            await fetch(pokemon_url)
-                .then(res => res.json())
-                .then(infoData => handleInfoData(i, pokeEntriesData, infoData, pokemonArr))
-                .catch(err => console.log(err));
-    }
-    console.log("Finished loading api to json");
-    await fs.writeFileSync(filePath, JSON.stringify(pokemonArr));
-    readFileData = JSON.parse(fs.readFileSync(filePath, "utf8"));
-}
-
-// Adds each pokemon to the array
-function handleInfoData(index: number, pokeEntriesData: any, infoData: any, pokemonArr: object[]) {
-    console.log("Pokemon number: " + index);
-    let types: string[] = [];
-    for (let i = 0; i < infoData.types.length; i++) {
-        types.push(infoData.types[i].type.name);
-    }
-    pokemonArr.push(
-            {
-                id: Number(pokeEntriesData[index].entry_number), 
-                name: pokeEntriesData[index].pokemon_species.name,
-                url: pokeEntriesData[index].pokemon_species.url,
-                img: infoData.sprites.front_default,
-                height: infoData.height,
-                weight: infoData.weight,
-                hp: infoData.stats[5].base_stat, //hp
-                attack: infoData.stats[4].base_stat, //attack
-                defense: infoData.stats[3].base_stat, //defense
-                types: types,
-            });
-}
-
 app.get("/getData", (_req, res) => {
-    res.status(200).send(readFileData);
+    res.status(200).send(getPokemonsDB(collection));
 });
 
 app.get('*', (_req, res) => {
