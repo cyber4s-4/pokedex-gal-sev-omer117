@@ -11,7 +11,7 @@ export function create() {
 export async function connect(client: MongoClient) {
   await client.connect();
   const db: Db = client.db('Pokedex');
-  const collection: Collection<Pokemon> = db.collection('shop');
+  const collection: Collection<Pokemon> = db.collection('pokemons');
   return collection;
 }
 
@@ -22,8 +22,8 @@ export async function addAllPokemon(data: any, collection: Collection<Pokemon>) 
 }
 
 export async function getPokemonsDB(collection: Collection<Pokemon>) {
-  await collection.find().toArray((err, result: any) => {
-    if (err) throw err;
+  await collection.find({}).toArray((err, result: any) => {
+    if (err) throw err;    
     return result;
   });
   return [];

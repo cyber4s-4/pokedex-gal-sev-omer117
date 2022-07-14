@@ -16,8 +16,6 @@ const root: string = path.join(process.cwd(), 'dist');
 
 app.use(express.static(root));
 
-let readFileData: JSON = JSON.parse("[]");
-
 let collection: Collection<Pokemon>;
 connect(create()).then(res => collection = res);
 
@@ -32,12 +30,11 @@ if(fs.existsSync(folderPath)) {
 
 if(fs.existsSync(filePath)) {
   console.log("file exists");
-  readFileData = JSON.parse(fs.readFileSync(filePath, "utf8"));
 } else {
   console.log("data.json doesn't exist, getting api to data.json");
     fetch('https://pokeapi.co/api/v2/pokedex/1')
     .then(res => res.json())
-    .then(data => writeData(data, filePath, readFileData, collection));
+    .then(data => writeData(data, filePath, collection));
 }
 
 app.use(express.static(root), (_req, _res, next) => {
@@ -50,7 +47,7 @@ app.get('/getApi', (_req, res) => {
     res.sendFile(path.join(root, 'index.html'));
     fetch('https://pokeapi.co/api/v2/pokedex/1')
     .then(res => res.json())
-    .then(data => writeData(data, filePath, readFileData, collection));
+    .then(data => writeData(data, filePath, collection));
 });
 
 app.get("/getData", (_req, res) => {

@@ -5,10 +5,11 @@ import { Collection } from "mongodb";
 import { addAllPokemon } from "./mongo";
 
 // Write the data from the api to the data.json
-export async function writeData(data: any, filePath: string, readFileData: JSON, collection: Collection<Pokemon>) {
+export async function writeData(data: any, filePath: string, collection: Collection<Pokemon>) {
   let pokemonArr: Pokemon[] = [];
   let pokeEntriesData = data.pokemon_entries;
-  for (let i = 0; i < pokeEntriesData.length; i++) {
+  for (let i = 0; i < 20; i++) {
+  // for (let i = 0; i < pokeEntriesData.length; i++) {
       let pokemon_url =  "https://pokeapi.co/api/v2/pokemon/" + pokeEntriesData[i].pokemon_species.name;
           await fetch(pokemon_url)
               .then(res => res.json())
@@ -17,7 +18,6 @@ export async function writeData(data: any, filePath: string, readFileData: JSON,
   }
   console.log("Finished loading api to json");
   await fs.writeFileSync(filePath, JSON.stringify(pokemonArr));
-  readFileData = JSON.parse(fs.readFileSync(filePath, "utf8"));
   addAllPokemon(pokemonArr, collection);
 }
 
