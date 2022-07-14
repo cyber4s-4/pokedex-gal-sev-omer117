@@ -1,3 +1,5 @@
+# Heroku deploy folder
+/deploy
 # Logs
 logs
 *.log
