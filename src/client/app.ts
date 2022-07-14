@@ -1,6 +1,6 @@
 import { Pokemon } from "./shared/pokemon";
 
-fetch('http://localhost:4002/getData')
+fetch('https://gal-and-omer-pokedex.herokuapp.com/getData')
     .then(res => res.json())
     .then(data => handleData(data));
 
