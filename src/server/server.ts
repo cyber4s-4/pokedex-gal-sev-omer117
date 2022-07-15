@@ -4,7 +4,6 @@ import cors from 'cors';
 import { json } from 'body-parser';
 import { Pokemon } from 'src/client/shared/pokemon';
 import fetch from 'cross-fetch';
-// import fs from 'fs';
 import { connect, create, getPokemonsDB } from './mongo';
 import { Collection } from 'mongodb';
 import { writeData } from './serverFunctions';
@@ -18,24 +17,6 @@ app.use(express.static(root));
 
 let collection: Collection<Pokemon>;
 connect(create()).then(res => collection = res);
-
-// const filePath = path.join(__dirname, "./data/data.json");
-// const folderPath = path.join(__dirname, "./data");
-
-// if(fs.existsSync(folderPath)) {
-//   console.log("folder exists");
-// } else {
-//   fs.mkdirSync(folderPath);
-// }
-
-// if(fs.existsSync(filePath)) {
-//   console.log("file exists");
-// } else {
-//   console.log("data.json doesn't exist, getting api to data.json");
-//     fetch('https://pokeapi.co/api/v2/pokedex/1')
-//     .then(res => res.json())
-//     .then(data => writeData(data, collection));
-// }
 
 app.use(express.static(root), (_req, _res, next) => {
     next();
@@ -51,10 +32,7 @@ app.get('/getApi', (_req, res) => {
 });
 
 app.get("/getData", (_req, res) => {
-  getPokemonsDB(collection, res).then(_collectionRes => {
-    // console.log("something: " + getAllPokemons);
-    // res.status(200).send(getAllPokemons);
-  }).catch(err => console.log("error " + err));
+  getPokemonsDB(collection, res);
 });
 
 app.get('*', (_req, res) => {

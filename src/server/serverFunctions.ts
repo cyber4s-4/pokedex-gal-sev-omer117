@@ -6,9 +6,8 @@ import { addAllPokemon, deleteAllPokemon } from "./mongo";
 // Write the data from the api to the data.json
 export async function writeData(data: any, collection: Collection<Pokemon>) {
   let pokemonArr: Pokemon[] = [];
-//   let pokemonFusionsArr: Pokemon[] = [];
   let pokeEntriesData = data.pokemon_entries;
-  deleteAllPokemon(collection);
+  deleteAllPokemon(collection); //delete all pokemon from collections
   for (let i = 0; i < 5; i++) {
       let pokemon_url =  "https://pokeapi.co/api/v2/pokemon/" + pokeEntriesData[i].pokemon_species.name;
           await fetch(pokemon_url)
@@ -16,25 +15,15 @@ export async function writeData(data: any, collection: Collection<Pokemon>) {
               .then(infoData => handleInfoData(i, pokeEntriesData, infoData, pokemonArr))
               .catch(err => console.log(err));
   }
-//   addAllPokemon(pokemonArr, collection);
-//   console.log(pokemonArr);
-  console.log("Finished loading api to json");
-
+  console.log("Finished loading api to pokeArr");
+  console.log("Creating & loading fusion pokemons to pokeArr");
   const fusionsNum = pokemonArr.length + 50000;
   for (let i = pokemonArr.length; i < fusionsNum; i++) {
     let rnd = Math.floor(Math.random() * (pokemonArr.length - 0) + 0);
     let rnd2 = Math.floor(Math.random() * (pokemonArr.length - 0) + 0);
-    const childPoke = pokeFusion(pokemonArr[rnd], pokemonArr[rnd2], i+1);
-    pokemonArr.push(childPoke as Pokemon);
-    console.log("added fusion number " + i);
+    pokemonArr.push(pokeFusion(pokemonArr[rnd], pokemonArr[rnd2], i+1) as Pokemon);
   }
-//   console.log(pokemonFusionsArr);
-//   try {
-//     addAllPokemon(pokemonFusionsArr, collection);    
-//   } catch (error) {
-//     console.log("error: " + error);
-//   }
-  console.log("Finished loading fusion pokemons to json");
+  console.log("Finished loading fusion pokemons to pokeArr");
   addAllPokemon(pokemonArr, collection);
 }
 
