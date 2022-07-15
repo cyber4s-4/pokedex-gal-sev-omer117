@@ -11,7 +11,7 @@ export class Pokemon {
     defense;
 
     constructor(id: number, name: string, url: string, img: string,
-        height: number, weight: number, types: [], hp: number, attack: number, defense: number) {
+        height: number, weight: number, types: string[] = [], hp: number, attack: number, defense: number) {
         this.id = id;
         this.name = name;
         this.url = url;

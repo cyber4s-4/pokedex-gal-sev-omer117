@@ -1,15 +1,14 @@
-import { Pokemon } from "src/client/shared/pokemon";
 import fetch from 'cross-fetch';
 import fs from 'fs';
 import { Collection } from "mongodb";
+import { Pokemon } from '../client/shared/pokemon';
 import { addAllPokemon } from "./mongo";
 
 // Write the data from the api to the data.json
 export async function writeData(data: any, filePath: string, collection: Collection<Pokemon>) {
   let pokemonArr: Pokemon[] = [];
   let pokeEntriesData = data.pokemon_entries;
-  for (let i = 0; i < 20; i++) {
-  // for (let i = 0; i < pokeEntriesData.length; i++) {
+  for (let i = 0; i < pokeEntriesData.length; i++) {
       let pokemon_url =  "https://pokeapi.co/api/v2/pokemon/" + pokeEntriesData[i].pokemon_species.name;
           await fetch(pokemon_url)
               .then(res => res.json())
@@ -17,7 +16,17 @@ export async function writeData(data: any, filePath: string, collection: Collect
               .catch(err => console.log(err));
   }
   console.log("Finished loading api to json");
-  await fs.writeFileSync(filePath, JSON.stringify(pokemonArr));
+  const fusionsNum = pokemonArr.length + 3;
+  for (let i = pokemonArr.length; i < fusionsNum; i++) {
+    let rnd = Math.floor(Math.random() * (pokemonArr.length - 0) + 0);
+    let rnd2 = Math.floor(Math.random() * (pokemonArr.length - 0) + 0);
+    pokemonArr.push(
+        pokeFusion(pokemonArr[rnd], pokemonArr[rnd2], i+1)
+    );
+    console.log(pokemonArr[i]);
+  }
+  console.log("Finished loading fusion pokemons to json");
+  fs.writeFileSync(filePath, JSON.stringify(pokemonArr));
   addAllPokemon(pokemonArr, collection);
 }
 
@@ -26,19 +35,55 @@ function handleInfoData(index: number, pokeEntriesData: any, infoData: any, poke
   console.log("Pokemon number: " + index);
   let types: string[] = [];
   for (let i = 0; i < infoData.types.length; i++) {
-      types.push(infoData.types[i].type.name);
+    types.push(infoData.types[i].type.name);
   }
   pokemonArr.push(
-          {
-              id: Number(pokeEntriesData[index].entry_number), 
-              name: pokeEntriesData[index].pokemon_species.name,
-              url: pokeEntriesData[index].pokemon_species.url,
-              img: infoData.sprites.front_default,
-              height: infoData.height,
-              weight: infoData.weight,
-              hp: infoData.stats[5].base_stat, //hp
-              attack: infoData.stats[4].base_stat, //attack
-              defense: infoData.stats[3].base_stat, //defense
-              types: types,
-          });
+    {
+        id: Number(pokeEntriesData[index].entry_number), 
+        name: pokeEntriesData[index].pokemon_species.name,
+        url: pokeEntriesData[index].pokemon_species.url,
+        img: infoData.sprites.front_default,
+        height: infoData.height,
+        weight: infoData.weight,
+        hp: infoData.stats[5].base_stat, //hp
+        attack: infoData.stats[4].base_stat, //attack
+        defense: infoData.stats[3].base_stat, //defense
+        types: types,
+    });
+}
+
+function pokeFusion(parent1: Pokemon, parent2: Pokemon, id: number): Pokemon {
+  let rnd = (Math.random()>=0.5)? 1 : 0; //returns random int 0 or 1
+  return new Pokemon(
+    id,
+    parent1.name.substring(0, parent1.name.length / 2) + parent2.name.substring(parent1.name.length / 2),
+    parent1.url,
+    rnd ? parent1.img : parent2.img,
+    (parent1.height + parent2.height) / 2,
+    (parent1.weight + parent2.weight) / 2,
+    typesFusion(parent1, parent2),
+    (parent1.hp + parent2.hp) / 2,
+    (parent1.attack + parent2.attack) / 2,
+    (parent1.defense + parent2.defense) / 2,
+  );
+}
+
+function typesFusion(parent1: Pokemon, parent2: Pokemon) {
+  const typesLength = (Math.ceil(parent1.types.length/2) + Math.ceil(parent1.types.length/2));
+  let outputTypes: string[] = [];
+  for (let i = 0; i < typesLength; i++) {
+    let rndParentNum = (Math.random()>=0.5)? 1 : 0; //returns random int 0 or 1
+    if (rndParentNum === 0) {
+      let rndTypeNum = Math.floor(Math.random() * (parent1.types.length - 0) + 0);
+      if(!outputTypes.includes(parent1.types[rndTypeNum])) {
+        outputTypes.push(parent1.types[rndTypeNum]);
+      }
+    } else {
+      let rndTypeNum = Math.floor(Math.random() * (parent2.types.length - 0) + 0);
+      if(!outputTypes.includes(parent2.types[rndTypeNum])) {
+          outputTypes.push(parent2.types[rndTypeNum]);
+      }
+    }
+  }
+  return outputTypes;
 }

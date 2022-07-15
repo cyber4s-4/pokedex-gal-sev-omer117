@@ -51,7 +51,10 @@ app.get('/getApi', (_req, res) => {
 });
 
 app.get("/getData", (_req, res) => {
-    res.status(200).send(getPokemonsDB(collection));
+  getPokemonsDB(collection, res).then(_collectionRes => {
+    // console.log("something: " + getAllPokemons);
+    // res.status(200).send(getAllPokemons);
+  }).catch(err => console.log("error " + err));
 });
 
 app.get('*', (_req, res) => {

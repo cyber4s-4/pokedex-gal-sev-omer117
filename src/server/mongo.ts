@@ -21,10 +21,9 @@ export async function addAllPokemon(data: any, collection: Collection<Pokemon>) 
   });
 }
 
-export async function getPokemonsDB(collection: Collection<Pokemon>) {
-  await collection.find({}).toArray((err, result: any) => {
-    if (err) throw err;    
-    return result;
+export async function getPokemonsDB(collection: Collection<Pokemon>, res: any) {
+  collection.find({}).toArray((err, result: any) => {
+    if (err) throw err;
+    res.status(200).send(result);
   });
-  return [];
 }

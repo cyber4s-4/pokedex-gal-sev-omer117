@@ -1,8 +1,10 @@
 import { Pokemon } from "./shared/pokemon";
 // fetch('https://omer-and-gal-poke.herokuapp.com/getData')
-fetch('https://localhost:4000/getData')
+fetch('http://localhost:4000/getData')
     .then(res => res.json())
-    .then(data => handleData(data));
+    .then(data => handleData(data))
+    .catch(err => console.log("error " + err)
+    );
 
 let pokemonArr: Pokemon[] = [];
 let input_label = document.getElementById("pokemonSearchLabel") as HTMLLabelElement;
