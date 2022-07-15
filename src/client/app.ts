@@ -26,7 +26,7 @@ function handleData(data: any) {
             Number(data[i].id), 
             data[i].name,
             data[i].url,
-            `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${data[i].id}.png`,
+            data[i].img,
             data[i].height,
             data[i].weight,
             data[i].types,
