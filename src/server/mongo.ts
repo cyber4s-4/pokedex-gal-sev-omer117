@@ -15,10 +15,19 @@ export async function connect(client: MongoClient) {
   return collection;
 }
 
-export async function addAllPokemon(data: any, collection: Collection<Pokemon>) {
-  await collection.insertMany(data as any,(err) => {
+export async function deleteAllPokemon(collection: Collection<Pokemon>) {   
+  collection.deleteMany({},(err) => {    
     if (err) throw err;
   });
+}
+
+export async function addAllPokemon(data: Pokemon[], collection: Collection<Pokemon>) {  
+  for (let i = 0; i < data.length / 100; i++) {
+  console.log("inserting batch: " + i*100 + " to " + Math.min((i*100)+100, data.length) + " --------------------------");
+  collection.insertMany(data.slice(i*100, Math.min((i*100)+100, data.length)) as Pokemon[],(err) => {        
+    if (err) throw err;
+  });
+  }
 }
 
 export async function getPokemonsDB(collection: Collection<Pokemon>, res: any) {

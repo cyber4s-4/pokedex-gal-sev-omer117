@@ -3,6 +3,7 @@
   "scripts": {
     "start": "gulp",
     "server": "nodemon --watch ./src/server ./src/server/server.ts",
+    "cool": "nodemon ./src/server/server.ts",
     "deploy": "gulp deploy",
     "lint": "eslint ./src --ext .ts",
     "lint-fix": "eslint ./src --ext .ts --fix",

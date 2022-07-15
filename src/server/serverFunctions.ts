@@ -2,32 +2,42 @@ import fetch from 'cross-fetch';
 import fs from 'fs';
 import { Collection } from "mongodb";
 import { Pokemon } from '../client/shared/pokemon';
-import { addAllPokemon } from "./mongo";
+import { addAllPokemon, deleteAllPokemon } from "./mongo";
 
 // Write the data from the api to the data.json
 export async function writeData(data: any, filePath: string, collection: Collection<Pokemon>) {
   let pokemonArr: Pokemon[] = [];
+//   let pokemonFusionsArr: Pokemon[] = [];
   let pokeEntriesData = data.pokemon_entries;
-  for (let i = 0; i < pokeEntriesData.length; i++) {
+  deleteAllPokemon(collection);
+  for (let i = 0; i < 5; i++) {
       let pokemon_url =  "https://pokeapi.co/api/v2/pokemon/" + pokeEntriesData[i].pokemon_species.name;
           await fetch(pokemon_url)
               .then(res => res.json())
               .then(infoData => handleInfoData(i, pokeEntriesData, infoData, pokemonArr))
               .catch(err => console.log(err));
   }
+//   addAllPokemon(pokemonArr, collection);
+//   console.log(pokemonArr);
   console.log("Finished loading api to json");
-  const fusionsNum = pokemonArr.length + 3;
+
+  const fusionsNum = pokemonArr.length + 1000;
   for (let i = pokemonArr.length; i < fusionsNum; i++) {
     let rnd = Math.floor(Math.random() * (pokemonArr.length - 0) + 0);
     let rnd2 = Math.floor(Math.random() * (pokemonArr.length - 0) + 0);
-    pokemonArr.push(
-        pokeFusion(pokemonArr[rnd], pokemonArr[rnd2], i+1)
-    );
-    console.log(pokemonArr[i]);
+    const childPoke = pokeFusion(pokemonArr[rnd], pokemonArr[rnd2], i+1);
+    pokemonArr.push(childPoke as Pokemon);
+    console.log("added fusion number " + i);
   }
+//   console.log(pokemonFusionsArr);
+//   try {
+//     addAllPokemon(pokemonFusionsArr, collection);    
+//   } catch (error) {
+//     console.log("error: " + error);
+//   }
   console.log("Finished loading fusion pokemons to json");
-  fs.writeFileSync(filePath, JSON.stringify(pokemonArr));
   addAllPokemon(pokemonArr, collection);
+  fs.writeFileSync(filePath, JSON.stringify(pokemonArr)); //MUST STAY HERE OTHERWISE GULP WILL RESTART SERVER MID UPLOAD
 }
 
 // Adds each pokemon to the array
@@ -52,20 +62,20 @@ function handleInfoData(index: number, pokeEntriesData: any, infoData: any, poke
     });
 }
 
-function pokeFusion(parent1: Pokemon, parent2: Pokemon, id: number): Pokemon {
+function pokeFusion(parent1: Pokemon, parent2: Pokemon, id: number): object {
   let rnd = (Math.random()>=0.5)? 1 : 0; //returns random int 0 or 1
-  return new Pokemon(
-    id,
-    parent1.name.substring(0, parent1.name.length / 2) + parent2.name.substring(parent1.name.length / 2),
-    parent1.url,
-    rnd ? parent1.img : parent2.img,
-    (parent1.height + parent2.height) / 2,
-    (parent1.weight + parent2.weight) / 2,
-    typesFusion(parent1, parent2),
-    (parent1.hp + parent2.hp) / 2,
-    (parent1.attack + parent2.attack) / 2,
-    (parent1.defense + parent2.defense) / 2,
-  );
+  return {
+    id: id,
+    name: parent1.name.substring(0, parent1.name.length / 2) + parent2.name.substring(parent1.name.length / 2),
+    url: parent1.url,
+    img: rnd ? parent1.img : parent2.img,
+    height: Math.floor((parent1.height + parent2.height) / 2),
+    weight: Math.floor((parent1.weight + parent2.weight) / 2),
+    hp: Math.floor((parent1.hp + parent2.hp) / 2),
+    attack: Math.floor((parent1.attack + parent2.attack) / 2),
+    defense: Math.floor((parent1.defense + parent2.defense) / 2),
+    types: typesFusion(parent1, parent2),
+  };
 }
 
 function typesFusion(parent1: Pokemon, parent2: Pokemon) {
