@@ -8,7 +8,7 @@ export async function writeData(data: any, collection: Collection<Pokemon>) {
   let pokemonArr: Pokemon[] = [];
   let pokeEntriesData = data.pokemon_entries;
   deleteAllPokemon(collection); //delete all pokemon from collections
-  for (let i = 0; i < 5; i++) {
+  for (let i = 0; i < pokeEntriesData.length; i++) {
       let pokemon_url =  "https://pokeapi.co/api/v2/pokemon/" + pokeEntriesData[i].pokemon_species.name;
           await fetch(pokemon_url)
               .then(res => res.json())
