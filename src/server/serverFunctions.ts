@@ -1,11 +1,10 @@
 import fetch from 'cross-fetch';
-import fs from 'fs';
 import { Collection } from "mongodb";
 import { Pokemon } from '../client/shared/pokemon';
 import { addAllPokemon, deleteAllPokemon } from "./mongo";
 
 // Write the data from the api to the data.json
-export async function writeData(data: any, filePath: string, collection: Collection<Pokemon>) {
+export async function writeData(data: any, collection: Collection<Pokemon>) {
   let pokemonArr: Pokemon[] = [];
 //   let pokemonFusionsArr: Pokemon[] = [];
   let pokeEntriesData = data.pokemon_entries;
@@ -21,7 +20,7 @@ export async function writeData(data: any, filePath: string, collection: Collect
 //   console.log(pokemonArr);
   console.log("Finished loading api to json");
 
-  const fusionsNum = pokemonArr.length + 1000;
+  const fusionsNum = pokemonArr.length + 50000;
   for (let i = pokemonArr.length; i < fusionsNum; i++) {
     let rnd = Math.floor(Math.random() * (pokemonArr.length - 0) + 0);
     let rnd2 = Math.floor(Math.random() * (pokemonArr.length - 0) + 0);
@@ -37,7 +36,6 @@ export async function writeData(data: any, filePath: string, collection: Collect
 //   }
   console.log("Finished loading fusion pokemons to json");
   addAllPokemon(pokemonArr, collection);
-  fs.writeFileSync(filePath, JSON.stringify(pokemonArr)); //MUST STAY HERE OTHERWISE GULP WILL RESTART SERVER MID UPLOAD
 }
 
 // Adds each pokemon to the array

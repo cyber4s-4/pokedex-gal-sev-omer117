@@ -22,12 +22,17 @@ export async function deleteAllPokemon(collection: Collection<Pokemon>) {
 }
 
 export async function addAllPokemon(data: Pokemon[], collection: Collection<Pokemon>) {  
-  for (let i = 0; i < data.length / 100; i++) {
-  console.log("inserting batch: " + i*100 + " to " + Math.min((i*100)+100, data.length) + " --------------------------");
-  collection.insertMany(data.slice(i*100, Math.min((i*100)+100, data.length)) as Pokemon[],(err) => {        
+  // for (let i = 0; i < data.length / 100; i++) {
+  // console.log("inserting batch: " + i*100 + " to " + Math.min((i*100)+100, data.length) + " --------------------------");
+  // collection.insertMany(data.slice(i*100, Math.min((i*100)+100, data.length)) as Pokemon[],(err) => {        
+  //   if (err) throw err;
+  // });
+  // }
+  collection.insertMany(data as Pokemon[],(err) => {        
     if (err) throw err;
   });
-  }
+  console.log("finished inserting pokemons to database");
+  
 }
 
 export async function getPokemonsDB(collection: Collection<Pokemon>, res: any) {
