@@ -21,15 +21,15 @@ export async function deleteAllPokemon(collection: Collection<Pokemon>) {
   });
 }
 
-export async function addAllPokemon(data: Pokemon[], collection: Collection<Pokemon>) {  
+export async function addAllPokemon(data: Pokemon[], collection: Collection<Pokemon>) {
   collection.insertMany(data as Pokemon[],(err) => {        
     if (err) throw err;
   });
   console.log("finished inserting pokemons to database");
 }
 
-export async function getPokemonsDB(collection: Collection<Pokemon>, res: any) {
-  collection.find({}).toArray((err, result: any) => {
+export async function getPokemonsDB(collection: Collection<Pokemon>, res: any, page: number) {
+  collection.find({$and:[ {id: {$gte: page * 100}}, {id: {$lte: (page+1)*100}}]}).toArray((err, result: any) => {
     if (err) throw err;
     res.status(200).send(result);
   });

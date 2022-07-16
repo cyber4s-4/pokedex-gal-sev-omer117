@@ -1,4 +1,5 @@
 import path from 'path';
+import fs from 'fs';
 import express, { Express } from 'express';
 import cors from 'cors';
 import { json } from 'body-parser';
@@ -6,7 +7,7 @@ import { Pokemon } from 'src/client/shared/pokemon';
 import fetch from 'cross-fetch';
 import { connect, create, getPokemonsDB } from './mongo';
 import { Collection } from 'mongodb';
-import { writeData } from './serverFunctions';
+import { writeData, handleJson, filePath } from './serverFunctions';
 
 const app: Express = express();
 app.use(cors());
@@ -22,17 +23,33 @@ app.use(express.static(root), (_req, _res, next) => {
     next();
 });
 
-// Run to get the data from the api and write it to data.json
-app.get('/getApi', (_req, res) => {
-    console.log("getting api");
+// Run to get the data from the api and write it to the database
+app.get('/writeToMongo', (_req, res) => {
+    console.log("getting api to database");
     res.sendFile(path.join(root, 'index.html'));
-    fetch('https://pokeapi.co/api/v2/pokedex/1')
-    .then(res => res.json())
-    .then(data => writeData(data, collection));
+    let pokemon_url =  "http://127.0.0.1:4000/getDataJson";
+    fetch(pokemon_url)
+      .then(res => res.json())
+      .then(pokemonsData => writeData(pokemonsData, collection))
+      .catch(err => console.log(err));
 });
 
-app.get("/getData", (_req, res) => {
-  getPokemonsDB(collection, res);
+// Run to write the data from the api and to the data.json
+app.get('/writeDataJson', (_req, res) => {
+  console.log("writing api to data json");
+  res.sendFile(path.join(root, 'index.html'));
+  handleJson();
+});
+
+// Run to get the data from data.json
+app.get('/getDataJson', (_req, res) => {
+  console.log("getting api from data json");
+  res.send(JSON.parse(fs.readFileSync(filePath, "utf8")));
+});
+
+// Run to get 100 pokemons based on the page
+app.get("/getData/page=:page", (req, res) => {
+  getPokemonsDB(collection, res, Number(req.params.page));
 });
 
 app.get('*', (_req, res) => {

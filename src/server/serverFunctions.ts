@@ -1,23 +1,23 @@
 import fetch from 'cross-fetch';
+import path from 'path';
+import fs from 'fs';
 import { Collection } from "mongodb";
 import { Pokemon } from '../client/shared/pokemon';
 import { addAllPokemon, deleteAllPokemon } from "./mongo";
 
+export const filePath = path.join(__dirname, "./data/data.json");
+const folderPath = path.join(__dirname, "./data");
+
 // Write the data from the api to the data.json
-export async function writeData(data: any, collection: Collection<Pokemon>) {
+export async function writeData(pokemonsData: any, collection: Collection<Pokemon>) {
   let pokemonArr: Pokemon[] = [];
-  let pokeEntriesData = data.pokemon_entries;
   deleteAllPokemon(collection); //delete all pokemon from collections
-  for (let i = 0; i < pokeEntriesData.length; i++) {
-      let pokemon_url =  "https://pokeapi.co/api/v2/pokemon/" + pokeEntriesData[i].pokemon_species.name;
-          await fetch(pokemon_url)
-              .then(res => res.json())
-              .then(infoData => handleInfoData(i, pokeEntriesData, infoData, pokemonArr))
-              .catch(err => console.log(err));
+  for (let i = 0; i < pokemonsData.length; i++) {
+    handleInfoDataJson(pokemonsData[i], pokemonArr);
   }
-  console.log("Finished loading api to pokeArr");
+  console.log("Finished loading data.json to pokeArr");
   console.log("Creating & loading fusion pokemons to pokeArr");
-  const fusionsNum = pokemonArr.length + 50000;
+  const fusionsNum = pokemonArr.length + 1000000;
   for (let i = pokemonArr.length; i < fusionsNum; i++) {
     let rnd = Math.floor(Math.random() * (pokemonArr.length - 0) + 0);
     let rnd2 = Math.floor(Math.random() * (pokemonArr.length - 0) + 0);
@@ -27,8 +27,26 @@ export async function writeData(data: any, collection: Collection<Pokemon>) {
   addAllPokemon(pokemonArr, collection);
 }
 
-// Adds each pokemon to the array
-function handleInfoData(index: number, pokeEntriesData: any, infoData: any, pokemonArr: object[]) {
+// Adds each pokemon to the array (from the data.json structure)
+function handleInfoDataJson(currentPokemon: Pokemon, pokemonArr: object[]) {
+  console.log("Pokemon id: " + currentPokemon.name);
+  pokemonArr.push(
+    {
+        id: Number(currentPokemon.id),
+        name: currentPokemon.name,
+        url: currentPokemon.url,
+        img: currentPokemon.img,
+        height: currentPokemon.height,
+        weight: currentPokemon.weight,
+        hp: currentPokemon.hp,
+        attack: currentPokemon.attack,
+        defense: currentPokemon.defense,
+        types: currentPokemon.types,
+    });
+}
+
+// Adds each pokemon to the array (from the api structure)
+function handleInfoDataApi(index: number, pokeEntriesData: any, infoData: any, pokemonArr: object[]) {
   console.log("Pokemon number: " + index);
   let types: string[] = [];
   for (let i = 0; i < infoData.types.length; i++) {
@@ -83,4 +101,36 @@ function typesFusion(parent1: Pokemon, parent2: Pokemon) {
     }
   }
   return outputTypes;
+}
+
+export async function handleJson() {
+  if(fs.existsSync(folderPath)) {
+    console.log("folder exists");
+  } else {
+    fs.mkdirSync(folderPath);
+  }
+  
+  if(fs.existsSync(filePath)) {
+    console.log("file exists");
+  } else {
+    console.log("data.json doesn't exist, getting api to data.json");
+      fetch('https://pokeapi.co/api/v2/pokedex/1')
+      .then(res => res.json())
+      .then(data => writeDataJson(data, filePath));
+  }
+}
+
+// Write the data from the api to the data.json
+async function writeDataJson(data: any, filePath: string) {
+    let pokemonArr: Pokemon[] = [];
+    let pokeEntriesData = data.pokemon_entries;
+    for (let i = 0; i < pokeEntriesData.length; i++) {
+        let pokemon_url =  "https://pokeapi.co/api/v2/pokemon/" + pokeEntriesData[i].pokemon_species.name;
+            await fetch(pokemon_url)
+                .then(res => res.json())
+                .then(infoData => handleInfoDataApi(i, pokeEntriesData, infoData, pokemonArr))
+                .catch(err => console.log(err));
+    }
+    console.log("Finished loading api to json");
+    fs.writeFileSync(filePath, JSON.stringify(pokemonArr));
 }
