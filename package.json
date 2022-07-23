@@ -9,11 +9,15 @@
     "jest": "jest"
   },
   "dependencies": {
+    "@types/pg": "^8.6.5",
     "body-parser": "^1.20.0",
     "cors": "^2.8.5",
     "cross-fetch": "^3.1.5",
+    "csvtojson": "^2.0.10",
     "express": "^4.18.1",
-    "mongodb": "^4.8.0",
+    "fs": "^0.0.1-security",
+    "path": "^0.12.7",
+    "pg": "^8.7.3",
     "webpack": "^5.73.0"
   },
   "devDependencies": {

@@ -32,6 +32,12 @@ gulp.task('index', () => {
     .pipe(gulp.dest('./dist'));
 });
 
+// Transfers data
+gulp.task('data', () => {
+  return gulp.src(['./src/**/*.json'])
+    .pipe(gulp.dest('./dist/tsc'));
+});
+
 // Transfers index
 gulp.task('icon', () => {
   return gulp.src(['./src/client/favicon.ico'])
@@ -81,6 +87,7 @@ gulp.task('build', gulp.series(
   'scss',
   'index',
   'icon',
+  'data',
   'tsc',
   'bundle',
 ));
@@ -93,6 +100,7 @@ gulp.task('heroku-copy-dist', () => {
     './dist/favicon.ico',
     './dist/index.html',
     './dist/styles.css',
+    
   ])
     .pipe(gulp.dest('./deploy/dist'));
 });
@@ -104,8 +112,9 @@ gulp.task('heroku-copy-root', () => {
     './package-lock.json',
     './Procfile',
     './dist/tsc/server/server.js',
-    './dist/tsc/server/mongo.js',
-    './dist/tsc/server/serverFunctions.js'
+    './dist/tsc/server/postgres.js',
+    './dist/tsc/server/serverFunctions.js',
+    './dist/tsc/server/data.json',
   ])
     .pipe(gulp.dest('./deploy'));
 });

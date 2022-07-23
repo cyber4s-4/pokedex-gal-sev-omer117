@@ -1,30 +1,32 @@
 import fetch from 'cross-fetch';
 import path from 'path';
 import fs from 'fs';
-import { Collection } from "mongodb";
+// import { Collection } from "mongodb";
 import { Pokemon } from '../client/shared/pokemon';
-import { addAllPokemon, deleteAllPokemon } from "./mongo";
+import { InsertPokemonsTable, deletePokemonTable, createPokemonTable } from "./postgres";
 
-export const filePath = path.join(__dirname, "./data/data.json");
-const folderPath = path.join(__dirname, "./data");
+export const filePath = path.join(__dirname, "./data.json");
 
 // Write the data from the api to the data.json
-export async function writeData(pokemonsData: any, collection: Collection<Pokemon>) {
+export async function writeData(pokemonsData: any) {
   let pokemonArr: Pokemon[] = [];
-  deleteAllPokemon(collection); //delete all pokemon from collections
+  deletePokemonTable(); //delete all pokemon from collections
+  createPokemonTable();
   for (let i = 0; i < pokemonsData.length; i++) {
     handleInfoDataJson(pokemonsData[i], pokemonArr);
   }
   console.log("Finished loading data.json to pokeArr");
   console.log("Creating & loading fusion pokemons to pokeArr");
-  const fusionsNum = pokemonArr.length + 1000000;
-  for (let i = pokemonArr.length; i < fusionsNum; i++) {
+  const fusionsNum = pokemonArr.length + 3000;
+  //pokeArr.length + 30 because there are about 30 corrupted pokemons so its a buffer for the id
+  //so it wont get duplicate id's
+  for (let i = pokemonArr.length+30; i < fusionsNum; i++) {
     let rnd = Math.floor(Math.random() * (pokemonArr.length - 0) + 0);
     let rnd2 = Math.floor(Math.random() * (pokemonArr.length - 0) + 0);
     pokemonArr.push(pokeFusion(pokemonArr[rnd], pokemonArr[rnd2], i+1) as Pokemon);
   }
   console.log("Finished loading fusion pokemons to pokeArr");
-  addAllPokemon(pokemonArr, collection);
+  InsertPokemonsTable(pokemonArr);
 }
 
 // Adds each pokemon to the array (from the data.json structure)
@@ -38,10 +40,10 @@ function handleInfoDataJson(currentPokemon: Pokemon, pokemonArr: object[]) {
         img: currentPokemon.img,
         height: currentPokemon.height,
         weight: currentPokemon.weight,
+        types: currentPokemon.types,
         hp: currentPokemon.hp,
         attack: currentPokemon.attack,
         defense: currentPokemon.defense,
-        types: currentPokemon.types,
     });
 }
 
@@ -60,10 +62,11 @@ function handleInfoDataApi(index: number, pokeEntriesData: any, infoData: any, p
         img: infoData.sprites.front_default,
         height: infoData.height,
         weight: infoData.weight,
+        types: types,
         hp: infoData.stats[5].base_stat, //hp
         attack: infoData.stats[4].base_stat, //attack
         defense: infoData.stats[3].base_stat, //defense
-        types: types,
+        
     });
 }
 
@@ -76,10 +79,10 @@ function pokeFusion(parent1: Pokemon, parent2: Pokemon, id: number): object {
     img: rnd ? parent1.img : parent2.img,
     height: Math.floor((parent1.height + parent2.height) / 2),
     weight: Math.floor((parent1.weight + parent2.weight) / 2),
+    types: typesFusion(parent1, parent2),
     hp: Math.floor((parent1.hp + parent2.hp) / 2),
     attack: Math.floor((parent1.attack + parent2.attack) / 2),
     defense: Math.floor((parent1.defense + parent2.defense) / 2),
-    types: typesFusion(parent1, parent2),
   };
 }
 
@@ -104,12 +107,6 @@ function typesFusion(parent1: Pokemon, parent2: Pokemon) {
 }
 
 export async function handleJson() {
-  if(fs.existsSync(folderPath)) {
-    console.log("folder exists");
-  } else {
-    fs.mkdirSync(folderPath);
-  }
-  
   if(fs.existsSync(filePath)) {
     console.log("file exists");
   } else {

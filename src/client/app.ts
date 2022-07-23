@@ -1,6 +1,6 @@
 import { Pokemon } from "./shared/pokemon";
-// fetch('https://omer-and-gal-poke.herokuapp.com/getData')
-fetch('http://localhost:4000/getData/page=0')
+fetch('https://poke-heroku-gal-omer.herokuapp.com/getData/page=0')
+// fetch('http://localhost:4000/getData/page=0')
     .then(res => res.json())
     .then(data => handleData(data))
     .catch(err => console.log("error " + err)
@@ -17,7 +17,7 @@ window.addEventListener("scroll", () => {
         currentMaxPage++;
         updatePokemonHtml();
         if(currentMaxPage % 5 == 0) {
-            fetch('http://localhost:4000/getData/page=' + currentMaxPage / 5)
+            fetch('https://poke-heroku-gal-omer.herokuapp.com/getData/page=' + currentMaxPage / 5)
                 .then(res => res.json())
                 .then(data => handleData(data))
                 .catch(err => console.log("error " + err));
