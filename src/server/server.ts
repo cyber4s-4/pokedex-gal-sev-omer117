@@ -10,7 +10,6 @@ import { selectPokemonTable } from './postgres';
 
 
 export const client = new Client({
-    // postgres://tedkxnpyxwvyoo:c2fcd6e14f55195b2c6aa0764dc8c805ab1872b1caf2ce136467700bc1ddac85@ec2-54-87-179-4.compute-1.amazonaws.com:5432/d72jh2unpcnoqh
     // connectionString: process.env.DATABASE_URL, ssl: {
     connectionString: "postgres://obouinkanaffwp:e2a075ec8cc7236879aa106ec5cb89792055573c37f6ef5aba471eaa5fabbdde@ec2-44-206-214-233.compute-1.amazonaws.com:5432/d9rjae5ruit19h",  ssl: {
     rejectUnauthorized: false
@@ -55,13 +54,7 @@ app.get('/getDataJson', (_req, res) => {
 
 // Run to get 100 pokemons based on the page
 app.get("/getData/page=:page", (req, res) => {
-  console.log("HELLO");
   selectPokemonTable(client, res, Number(req.params.page));
-});
-
-app.get("/wtf", (_req, res) => {
-  console.log("HELLO");
-  res.send("HEY");
 });
 
 app.get('*', (_req, res) => {
